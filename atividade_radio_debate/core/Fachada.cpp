@@ -61,3 +61,14 @@ Eleitor* Fachada::criarEleitor(int id, const std::string& nome, Candidato* candi
     }
     return builder.getResultados();
 }
+
+
+// Métodos do padrão Prototype
+Candidato* Fachada::clonarCandidato(Candidato* candidato) {
+    CandidatoConcreto* concreto = dynamic_cast<CandidatoConcreto*>(candidato);
+    return dynamic_cast<Candidato*>(concreto->clonar());
+}
+
+Eleitor* Fachada::clonarEleitor(Eleitor* eleitor) {
+    return dynamic_cast<Eleitor*>(eleitor->clonar());
+}

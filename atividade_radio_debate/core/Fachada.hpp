@@ -31,4 +31,8 @@ public:
     // Métodos do padrão Builder
     Candidato* criarCandidato(int id, const std::string& nome);
     Eleitor* criarEleitor(int id, const std::string& nome, Candidato* candidatoFavorito = nullptr);
+
+    // Métodos do padrão Prototype
+    Candidato* clonarCandidato(Candidato* candidato);
+    Eleitor* clonarEleitor(Eleitor* eleitor);
 };
