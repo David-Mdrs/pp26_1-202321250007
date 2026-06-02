@@ -14,11 +14,18 @@ private:
 public:
     CandidatoConcreto(int id, const std::string& nome);
 
+    // Métodos get
     int getId() const override;
     const std::string& getNome() const override;
     bool getJaPerguntou() const override;
     Microfone& obterMicrofone() override;
     const Microfone& obterMicrofone() const override;
 
+    // Métodos set
+    void setId(int id);
+    void setNome(const std::string& nome);
+    void setMicrofone(const Microfone& microfone);
+
+    // Métodos auxiliares
     void marcarComoInquiridor() override;
 };

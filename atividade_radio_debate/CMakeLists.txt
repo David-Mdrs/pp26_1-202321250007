@@ -18,4 +18,7 @@ add_executable(main
         core/Fachada.cpp
         core/CLI.cpp
         core/CLI.hpp
+        participantes/comum/ParticipanteBuilder.hpp
+        participantes/candidato/CandidatoBuilder.hpp
+        participantes/candidato/CandidatoBuilder.cpp
 )
