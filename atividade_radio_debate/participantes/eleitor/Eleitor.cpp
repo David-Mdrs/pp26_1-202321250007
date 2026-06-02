@@ -30,7 +30,14 @@ void Eleitor::setCandidatoFavorito(CandidatoConcreto* candidato) {
     }
 }
 
-// Métodos auxiliares
+// Método do padrão Builder
 void Eleitor::receberNotificacao(const std::string& mensagem) {
     std::cout << "[Eleitor " << nome << "] " << mensagem << '\n';
+}
+
+// Método do padrão Prototype
+ParticipantePrototype* Eleitor::clonar() {
+    Eleitor* novo = new Eleitor(id, nome);
+    novo->candidatoFavorito = candidatoFavorito;
+    return novo;
 }

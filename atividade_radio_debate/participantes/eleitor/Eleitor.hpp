@@ -3,10 +3,11 @@
 
 #include "../../debate/Colaborador.hpp"
 #include "../comum/ObservadorEleitor.hpp"
+#include "../comum/ParticipantePrototype.hpp"
 
 class CandidatoConcreto;
 
-class Eleitor : public Colaborador, public ObservadorEleitor {
+class Eleitor : public Colaborador, public ObservadorEleitor, public ParticipantePrototype {
 private:
     int id;
     std::string nome;
@@ -27,4 +28,5 @@ public:
 
     // Métodos auxiliares
     void receberNotificacao(const std::string& mensagem) override;
+    ParticipantePrototype* clonar() override;
 };
