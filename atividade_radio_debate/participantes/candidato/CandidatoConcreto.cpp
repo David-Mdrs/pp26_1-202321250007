@@ -16,7 +16,15 @@ void CandidatoConcreto::setId(int id) { this->id = id; }
 void CandidatoConcreto::setNome(const std::string& nome) { this->nome = nome; }
 void CandidatoConcreto::setMicrofone(const Microfone& microfone) { this->microfone = microfone; }
 
-// Métodos auxiliares
+// Método do padrão Builder
 void CandidatoConcreto::marcarComoInquiridor() {
     jaPerguntou = true;
+}
+
+// Método do padrão Prototype
+ParticipantePrototype* CandidatoConcreto::clonar() {
+    CandidatoConcreto* novo = new CandidatoConcreto(id, nome);
+    novo->jaPerguntou = jaPerguntou;
+    novo->microfone = microfone;
+    return novo;
 }

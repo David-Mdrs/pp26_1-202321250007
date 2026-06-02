@@ -3,8 +3,9 @@
 
 #include "Candidato.hpp"
 #include "../../debate/Microfone.hpp"
+#include "../comum/ParticipantePrototype.hpp"
 
-class CandidatoConcreto : public Candidato {
+class CandidatoConcreto : public Candidato, public ParticipantePrototype {
 private:
     int id;
     std::string nome;
@@ -28,4 +29,5 @@ public:
 
     // Métodos auxiliares
     void marcarComoInquiridor() override;
+    ParticipantePrototype* clonar() override;
 };
