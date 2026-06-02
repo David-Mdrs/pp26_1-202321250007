@@ -1,9 +1,9 @@
 #include <vector>
 
-#include "Fachada.hpp"
-#include "CLI.hpp"
-#include "CandidatoConcreto.hpp"
-#include "Eleitor.hpp"
+#include "core/Fachada.hpp"
+#include "core/CLI.hpp"
+#include "participantes/candidato/CandidatoConcreto.hpp"
+#include "participantes/eleitor/Eleitor.hpp"
 
 int main() {
 

@@ -5,9 +5,9 @@
 #include <iostream>
 
 #include "Mediador.hpp"
-#include "Candidato.hpp"
+#include "../participantes/candidato/Candidato.hpp"
 #include "Cronometro.hpp"
-#include "Logger.hpp"
+#include "../core/Logger.hpp"
 
 class GerenciadorDebate : public Mediador {
 private:

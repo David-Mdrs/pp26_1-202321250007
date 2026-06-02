@@ -6,16 +6,16 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(main
         main.cpp
-        CLI.cpp
-        Colaborador.cpp
-        Microfone.cpp
-        Cronometro.cpp
-        Logger.cpp
-        Candidato.cpp
-        CandidatoConcreto.cpp
-        Eleitor.cpp
-        GerenciadorDebate.cpp
-        Fachada.cpp
-        cli.cpp
-        CLI.hpp
+        core/CLI.cpp
+        debate/Colaborador.cpp
+        debate/Microfone.cpp
+        debate/Cronometro.cpp
+        core/Logger.cpp
+        participantes/candidato/Candidato.cpp
+        participantes/candidato/CandidatoConcreto.cpp
+        participantes/eleitor/Eleitor.cpp
+        debate/GerenciadorDebate.cpp
+        core/Fachada.cpp
+        core/CLI.cpp
+        core/CLI.hpp
 )

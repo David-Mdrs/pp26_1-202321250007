@@ -2,7 +2,7 @@
 #include <string>
 
 #include "Candidato.hpp"
-#include "Microfone.hpp"
+#include "../../debate/Microfone.hpp"
 
 class CandidatoConcreto : public Candidato {
 private:

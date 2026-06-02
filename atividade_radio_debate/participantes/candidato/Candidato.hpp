@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "Colaborador.hpp"
-#include "ObservadorEleitor.hpp"
+#include "../../debate/Colaborador.hpp"
+#include "../comum/ObservadorEleitor.hpp"
 
 class Microfone;
 

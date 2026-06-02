@@ -1,5 +1,5 @@
 #include "Eleitor.hpp"
-#include "CandidatoConcreto.hpp"
+#include "../candidato/CandidatoConcreto.hpp"
 #include <iostream>
 
 Eleitor::Eleitor(int id, const std::string& nome, CandidatoConcreto* candidatoFavorito)

@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "GerenciadorDebate.hpp"
+#include "../debate/GerenciadorDebate.hpp"
 
 class Fachada {
 private:
