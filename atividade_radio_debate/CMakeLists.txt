@@ -21,4 +21,6 @@ add_executable(main
         participantes/comum/ParticipanteBuilder.hpp
         participantes/candidato/CandidatoBuilder.hpp
         participantes/candidato/CandidatoBuilder.cpp
+        participantes/eleitor/EleitorBuilder.hpp
+        participantes/eleitor/EleitorBuilder.cpp
 )

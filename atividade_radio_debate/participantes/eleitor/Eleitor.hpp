@@ -15,10 +15,16 @@ private:
 public:
     Eleitor(int id, const std::string& nome, CandidatoConcreto* candidatoFavorito = nullptr);
 
-    void setCandidatoFavorito(CandidatoConcreto* candidato);
-    void receberNotificacao(const std::string& mensagem) override;
-
+    // Métodos get
     int getId() const;
     const std::string& getNome() const;
     CandidatoConcreto* getCandidatoFavorito() const;
+
+    // Métodos set
+    void setId(int id);
+    void setNome(const std::string& nome);
+    void setCandidatoFavorito(CandidatoConcreto* candidato);
+
+    // Métodos auxiliares
+    void receberNotificacao(const std::string& mensagem) override;
 };
