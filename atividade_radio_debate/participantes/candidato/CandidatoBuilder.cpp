@@ -21,5 +21,7 @@ void CandidatoBuilder::construirMicrofone(const Microfone& microfone) {
 }
 
 CandidatoConcreto* CandidatoBuilder::getResultados() {
-    return resultados;
+    CandidatoConcreto* temp = resultados;
+    resultados = nullptr;
+    return temp;
 }

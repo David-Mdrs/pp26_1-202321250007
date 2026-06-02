@@ -1,4 +1,7 @@
 #include "Fachada.hpp"
+#include "../participantes/candidato/CandidatoBuilder.hpp"
+#include "../participantes/eleitor/EleitorBuilder.hpp"
+#include "../participantes/candidato/CandidatoConcreto.hpp"
 
 Fachada::Fachada() {
 }
@@ -39,4 +42,22 @@ bool Fachada::debateEncerrado() const {
 
 void Fachada::gerarRelatorio() const {
     gerenciador.gerarRelatorio();
+}
+
+// Métodos de criação que utilizam o padrão Builder
+Candidato* Fachada::criarCandidato(int id, const std::string& nome) {
+    CandidatoBuilder builder;
+    builder.construirId(id);
+    builder.construirNome(nome);
+    return builder.getResultados();
+}
+
+Eleitor* Fachada::criarEleitor(int id, const std::string& nome, Candidato* candidatoFavorito) {
+    EleitorBuilder builder;
+    builder.construirId(id);
+    builder.construirNome(nome);
+    if (candidatoFavorito != nullptr) {
+        builder.construirCandidatoFavorito(dynamic_cast<CandidatoConcreto*>(candidatoFavorito));
+    }
+    return builder.getResultados();
 }

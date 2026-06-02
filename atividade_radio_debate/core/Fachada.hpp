@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "../debate/GerenciadorDebate.hpp"
+#include "../participantes/eleitor/Eleitor.hpp"
 
 class Fachada {
 private:
@@ -26,4 +27,8 @@ public:
 
     bool debateEncerrado() const;
     void gerarRelatorio() const;
+
+    // Métodos do padrão Builder
+    Candidato* criarCandidato(int id, const std::string& nome);
+    Eleitor* criarEleitor(int id, const std::string& nome, Candidato* candidatoFavorito = nullptr);
 };

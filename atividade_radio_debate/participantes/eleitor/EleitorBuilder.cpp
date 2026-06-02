@@ -21,5 +21,7 @@ void EleitorBuilder::construirCandidatoFavorito(CandidatoConcreto* candidato) {
 }
 
 Eleitor* EleitorBuilder::getResultados() {
-    return resultados;
+    Eleitor* temp = resultados;
+    resultados = nullptr;
+    return temp;
 }
