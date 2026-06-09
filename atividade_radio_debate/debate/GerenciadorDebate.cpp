@@ -1,12 +1,17 @@
 #include "GerenciadorDebate.hpp"
 #include "Microfone.hpp"
+#include "estados/EstadoPergunta.hpp"
+#include "estados/EstadoResposta.hpp"
+#include "estados/EstadoReplica.hpp"
+#include "estados/EstadoTreplica.hpp"
+#include "estados/EstadoDireitoResposta.hpp"
 
 GerenciadorDebate::GerenciadorDebate()
     : inquiridor(nullptr),
       inquirido(nullptr),
-      faseAtual("NULO"),
       tempos(4, 0),
-      encerrado(false) {
+      encerrado(false),
+      estadoAtual(nullptr) {
 }
 
 Candidato* GerenciadorDebate::buscarCandidatoPorId(int id) const {
@@ -31,10 +36,6 @@ void GerenciadorDebate::configurarDebate(const std::vector<Candidato*>& novosCan
 }
 
 void GerenciadorDebate::sortearInquiridor() {
-    if (faseAtual == "NULO") {
-        faseAtual = "PERGUNTA";
-    }
-
     std::vector<Candidato*> disponiveis;
 
     for (auto* c : candidatos) {
@@ -67,52 +68,7 @@ void GerenciadorDebate::definirInquirido(int id) {
             return;
         }
     }
-
     logger.registrar("Candidato invalido");
-}
-
-void GerenciadorDebate::iniciarFase(int tempo) {
-    if (!inquiridor || !inquirido) {
-        logger.registrar("Nao foi possivel iniciar a fase: dupla nao definida.");
-        return;
-    }
-
-    if (faseAtual == "PERGUNTA") {
-        inquiridor->notificar("Candidato " + inquiridor->getNome() + " esta falando");
-        std::cout << "\nMicrofone inquiridor " << inquiridor->getNome() <<  ": ";
-        inquiridor->obterMicrofone().ligar();
-        std::cout << "Microfone inquirido " << inquirido->getNome() <<  ": ";
-        inquirido->obterMicrofone().desligar();
-        std::cout << std::endl;
-    }
-    else if (faseAtual == "RESPOSTA") {
-        inquirido->notificar("Candidato " + inquirido->getNome() + " esta falando");
-        std::cout << "\nMicrofone inquiridor " << inquiridor->getNome() <<  ": ";
-        inquirido->obterMicrofone().desligar();
-        std::cout << "Microfone inquirido " << inquirido->getNome() <<  ": ";
-        inquiridor->obterMicrofone().ligar();
-        std::cout << std::endl;
-    }
-    else if (faseAtual == "REPLICA") {
-        inquiridor->notificar("Candidato " + inquiridor->getNome() + " esta falando");
-        std::cout << "\nMicrofone inquiridor " << inquiridor->getNome() <<  ": ";
-        inquiridor->obterMicrofone().ligar();
-        std::cout << "Microfone inquirido " << inquirido->getNome() <<  ": ";
-        inquirido->obterMicrofone().desligar();
-        std::cout << std::endl;
-    }
-    else if (faseAtual == "TREPLICA") {
-        inquirido->notificar("Candidato " + inquirido->getNome() + " esta falando");
-        std::cout << "\nMicrofone inquiridor " << inquiridor->getNome() <<  ": ";
-        inquirido->obterMicrofone().desligar();
-        std::cout << "Microfone inquirido " << inquirido->getNome() <<  ": ";
-        inquiridor->obterMicrofone().ligar();
-        std::cout << std::endl;
-    }
-
-    cronometro.iniciar(tempo);
-    registrarAcao("Fase iniciada: " + faseAtual);
-    std::cout << std::endl;
 }
 
 void GerenciadorDebate::registrarAcao(const std::string& acao) {
@@ -127,61 +83,55 @@ void GerenciadorDebate::iniciarDebate() {
         return;
     }
 
-    if (candidatos.size() > 1) {
-        for (auto* c : candidatos) {
-            if (c && c != inquiridor) {
-                inquirido = c;
-                logger.registrar("Inquirido definido automaticamente: " + c->getNome());
-                std::cout << std::endl;
-                break;
-            }
+    for (auto* c : candidatos) {
+        if (c && c != inquiridor) {
+            inquirido = c;
+            logger.registrar("Inquirido definido automaticamente: " + c->getNome());
+            break;
         }
     }
 
-    faseAtual = "PERGUNTA";
-    iniciarFase(tempos[0]);
+    setEstado(new EstadoPergunta());
+    processarEstado();
+    cronometro.iniciar(tempos[0]);
 }
 
 void GerenciadorDebate::proximaAcao() {
     cronometro.finalizarTempo();
 
-    if (faseAtual == "PERGUNTA") {
-        faseAtual = "RESPOSTA";
-        iniciarFase(tempos[1]);
+    if (dynamic_cast<EstadoPergunta*>(estadoAtual)) {
+        setEstado(new EstadoResposta());
+        processarEstado();
+        cronometro.iniciar(tempos[1]);
     }
-    else if (faseAtual == "RESPOSTA") {
-        faseAtual = "REPLICA";
-        iniciarFase(tempos[2]);
+    else if (dynamic_cast<EstadoResposta*>(estadoAtual)) {
+        setEstado(new EstadoReplica());
+        processarEstado();
+        cronometro.iniciar(tempos[2]);
     }
-    else if (faseAtual == "REPLICA") {
-        faseAtual = "TREPLICA";
-        iniciarFase(tempos[3]);
+    else if (dynamic_cast<EstadoReplica*>(estadoAtual)) {
+        setEstado(new EstadoTreplica());
+        processarEstado();
+        cronometro.iniciar(tempos[3]);
     }
-    else if (faseAtual == "TREPLICA") {
+    else if (dynamic_cast<EstadoTreplica*>(estadoAtual)) {
         registrarAcao("Rodada finalizada");
     }
 }
 
 void GerenciadorDebate::finalizarDebate() {
     if (inquiridor) {
-        std::cout << "\nMicrofone inquiridor " << inquiridor->getNome() <<  ": ";
         inquiridor->obterMicrofone().desligar();
     }
-
     if (inquirido) {
-        std::cout << "\nMicrofone inquirido " << inquirido->getNome() <<  ": ";
         inquirido->obterMicrofone().desligar();
     }
 
-    std::cout << std::endl;
-
     if (!encerrado) {
         logger.registrar("Debate finalizado.");
-        std::cout << std::endl;
     }
 
     encerrado = true;
-    faseAtual = "FINALIZADO";
 }
 
 bool GerenciadorDebate::estaEncerrado() const {
@@ -190,4 +140,77 @@ bool GerenciadorDebate::estaEncerrado() const {
 
 void GerenciadorDebate::gerarRelatorio() const {
     logger.gerarRelatorio();
+}
+
+// Métodos do padrão State
+void GerenciadorDebate::setEstado(EstadoDebate* estado) {
+    delete estadoAtual;
+    estadoAtual = estado;
+}
+
+void GerenciadorDebate::processarEstado() {
+    if (estadoAtual) {
+        estadoAtual->processar(*this);
+    }
+}
+
+// Métodos para implementação da DR
+void GerenciadorDebate::registrarSolicitacaoDR(Candidato* candidato) {
+    filaDR.push_back(candidato);
+    registrarAcao("DR solicitado por: " + candidato->getNome());
+}
+
+void GerenciadorDebate::analisarSolicitacoesDR() {
+    if (filaDR.empty()) {
+        std::cout << "Nenhuma solicitacao de DR.\n";
+        return;
+    }
+    for (Candidato* c : filaDR) {
+        std::cout << c->getNome() << " solicitou DR\n";
+    }
+}
+
+void GerenciadorDebate::concederDR(Candidato* candidato) {
+    for (Candidato* c : filaDR) {
+        if (c->getId() == candidato->getId()) {
+            setEstado(new EstadoDireitoResposta());
+            processarEstado();
+            return;
+        }
+    }
+    std::cout << "Candidato nao encontrado na fila de DR.\n";
+}
+
+void GerenciadorDebate::simularSolicitacoesDR() {
+    std::uniform_int_distribution<int> dist(0, 1);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    for (Candidato* c : candidatos) {
+        if (dist(gen) == 1) {
+            registrarSolicitacaoDR(c);
+            std::cout << c->getNome() << " solicitou Direito de Resposta.\n";
+        }
+    }
+}
+
+// Métodos get
+Candidato* GerenciadorDebate::getInquiridor() const {
+    return inquiridor;
+}
+
+Candidato* GerenciadorDebate::getInquirido() const {
+    return inquirido;
+}
+
+const std::vector<Candidato*>& GerenciadorDebate::getCandidatos() const {
+    return candidatos;
+}
+
+std::vector<Candidato*>& GerenciadorDebate::getFilaDR() {
+    return filaDR;
+}
+
+void GerenciadorDebate::limparFilaDR() {
+    filaDR.clear();
 }

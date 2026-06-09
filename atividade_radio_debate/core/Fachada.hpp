@@ -22,17 +22,26 @@ public:
     void sortearInquiridor();
     void definirInquirido(int id);
     void iniciarDebate();
-    void avancarEtapa();
     void finalizarDebate();
 
     bool debateEncerrado() const;
     void gerarRelatorio() const;
 
-    // Métodos do padrão Builder
+    // State
+    void iniciarPergunta();
+    void iniciarResposta();
+    void iniciarReplica();
+    void iniciarTreplica();
+
+    // DR
+    void analisarSolicitacoesDR();
+    void concederDR(int idCandidato);
+
+    // Builder
     Candidato* criarCandidato(int id, const std::string& nome);
     Eleitor* criarEleitor(int id, const std::string& nome, Candidato* candidatoFavorito = nullptr);
 
-    // Métodos do padrão Prototype
+    // Prototype
     Candidato* clonarCandidato(Candidato* candidato);
     Eleitor* clonarEleitor(Eleitor* eleitor);
 };

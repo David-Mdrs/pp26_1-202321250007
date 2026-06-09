@@ -23,4 +23,5 @@ private:
     void cmdCriarCandidato(const std::vector<std::string>& args);
     void cmdCriarEleitor(const std::vector<std::string>& args);
     void cmdConfigurarDebate(const std::vector<std::string>& args);
+    void cmdConcederDR(const std::vector<std::string>& args);
 };

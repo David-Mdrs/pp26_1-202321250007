@@ -12,7 +12,6 @@ CLI::CLI(Fachada& fachada)
     : fachada(fachada) {
 }
 
-// Inicialização da CLI e leitura da entrada
 void CLI::run() {
 
     std::string input;
@@ -25,7 +24,12 @@ void CLI::run() {
     std::cout << "CADASTRAR ELEITOR    <id>  <nome>  <nomeCandidatoFavorito>\n";
     std::cout << "CONFIGURAR DEBATE    <tempo1> <t2> <t3> <t4>\n";
     std::cout << "INICIAR DEBATE\n";
-    std::cout << "PROXIMO\n";
+    std::cout << "INICIAR PERGUNTA\n";
+    std::cout << "INICIAR RESPOSTA\n";
+    std::cout << "INICIAR REPLICA\n";
+    std::cout << "INICIAR TREPLICA\n";
+    std::cout << "ANALISAR DR\n";
+    std::cout << "CONCEDER DR          <idCandidato>\n";
     std::cout << "FINALIZAR\n";
     std::cout << "RELATORIO\n";
     std::cout << "SAIR\n";
@@ -41,7 +45,6 @@ void CLI::run() {
         }
 
         std::istringstream iss(input);
-
         std::vector<std::string> args;
         std::string palavra;
 
@@ -55,55 +58,57 @@ void CLI::run() {
     }
 }
 
-// Execução do comando dado pelo usuário
 void CLI::executarComando(const std::vector<std::string>& args) {
 
-    // Inicialização do debate
     if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "DEBATE") {
         fachada.iniciarDebate();
         std::cout << "Debate iniciado.\n\n";
-        }
-
-    // Próxima fase do debate
-    else if (args[0] == "PROXIMO") {
-        fachada.avancarEtapa();
-        std::cout << "Proxima fase executada.\n\n";
     }
-
-    // Finalização do debate
+    else if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "PERGUNTA") {
+        fachada.iniciarPergunta();
+        std::cout << "Fase de pergunta iniciada.\n\n";
+    }
+    else if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "RESPOSTA") {
+        fachada.iniciarResposta();
+        std::cout << "Fase de resposta iniciada.\n\n";
+    }
+    else if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "REPLICA") {
+        fachada.iniciarReplica();
+        std::cout << "Fase de replica iniciada.\n\n";
+    }
+    else if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "TREPLICA") {
+        fachada.iniciarTreplica();
+        std::cout << "Fase de treplica iniciada.\n\n";
+    }
+    else if (args[0] == "ANALISAR" && args.size() >= 2 && args[1] == "DR") {
+        fachada.analisarSolicitacoesDR();
+        std::cout << std::endl;
+    }
+    else if (args[0] == "CONCEDER" && args.size() >= 3 && args[1] == "DR") {
+        cmdConcederDR(args);
+    }
     else if (args[0] == "FINALIZAR") {
         fachada.finalizarDebate();
         std::cout << "Debate finalizado.\n\n";
     }
-
-    // Relatório do debate
     else if (args[0] == "RELATORIO") {
         fachada.gerarRelatorio();
         std::cout << std::endl;
     }
-
-    // Cadastrar candidato
     else if (args[0] == "CADASTRAR" && args.size() >= 4 && args[1] == "CANDIDATO") {
         cmdCriarCandidato(args);
     }
-
-    // Cadastrar eleitor
     else if (args[0] == "CADASTRAR" && args.size() >= 5 && args[1] == "ELEITOR") {
         cmdCriarEleitor(args);
     }
-
-    // Inicializa configurações do debate
     else if (args[0] == "CONFIGURAR" && args.size() >= 3 && args[1] == "DEBATE") {
         cmdConfigurarDebate(args);
     }
-
-    // Nenhum comando reconhecido
     else {
         std::cout << "Comando invalido.\n\n";
     }
 }
 
-// Cria um novo candidato e armazena do vetor temporário
 void CLI::cmdCriarCandidato(const std::vector<std::string>& args) {
     int id = std::stoi(args[2]);
     std::string nome = args[3];
@@ -112,7 +117,6 @@ void CLI::cmdCriarCandidato(const std::vector<std::string>& args) {
     std::cout << "Candidato " << nome << " cadastrado.\n\n";
 }
 
-// Cria um novo eleitor e armazena no vetor temporário
 void CLI::cmdCriarEleitor(const std::vector<std::string>& args) {
     int id = std::stoi(args[2]);
     std::string nome = args[3];
@@ -136,12 +140,17 @@ void CLI::cmdCriarEleitor(const std::vector<std::string>& args) {
     std::cout << "Eleitor " << nome << " cadastrado.\n\n";
 }
 
-// Passa os candidatos/eleitores criados temporariamente e tempos para inicialização do debate
 void CLI::cmdConfigurarDebate(const std::vector<std::string>& args) {
     std::vector<int> tempos;
-    for (int i = 2; i < args.size(); i++) {
+    for (int i = 2; i < (int)args.size(); i++) {
         tempos.push_back(std::stoi(args[i]));
     }
     fachada.configurarDebate(candidatos, tempos);
     std::cout << "Debate configurado.\n\n";
+}
+
+void CLI::cmdConcederDR(const std::vector<std::string>& args) {
+    int id = std::stoi(args[2]);
+    fachada.concederDR(id);
+    std::cout << "DR concedido.\n\n";
 }

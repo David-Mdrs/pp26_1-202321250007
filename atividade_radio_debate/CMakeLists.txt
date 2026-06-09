@@ -4,24 +4,42 @@ project(atividade_radio_debate)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include_directories(
+        .
+        core
+        debate
+        debate/estados
+        debate/geral
+        participantes/candidato
+        participantes/eleitor
+        participantes/comum
+)
+
 add_executable(main
         main.cpp
+
+        # Core
         core/CLI.cpp
+        core/Logger.cpp
+        core/Fachada.cpp
+
+        # Debate
         debate/Colaborador.cpp
         debate/Microfone.cpp
         debate/Cronometro.cpp
-        core/Logger.cpp
+        debate/GerenciadorDebate.cpp
+
+        # Estados
+        debate/estados/estadoPergunta.cpp
+        debate/estados/estadoResposta.cpp
+        debate/estados/estadoReplica.cpp
+        debate/estados/estadoTreplica.cpp
+        debate/estados/estadoDireitoResposta.cpp
+
+        # Participantes
         participantes/candidato/Candidato.cpp
         participantes/candidato/CandidatoConcreto.cpp
-        participantes/eleitor/Eleitor.cpp
-        debate/GerenciadorDebate.cpp
-        core/Fachada.cpp
-        core/CLI.cpp
-        core/CLI.hpp
-        participantes/comum/ParticipanteBuilder.hpp
-        participantes/candidato/CandidatoBuilder.hpp
         participantes/candidato/CandidatoBuilder.cpp
-        participantes/eleitor/EleitorBuilder.hpp
+        participantes/eleitor/Eleitor.cpp
         participantes/eleitor/EleitorBuilder.cpp
-        participantes/comum/ParticipantePrototype.hpp
 )
