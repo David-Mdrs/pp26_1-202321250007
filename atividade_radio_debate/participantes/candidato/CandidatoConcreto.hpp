@@ -30,4 +30,7 @@ public:
     // Métodos auxiliares
     void marcarComoInquiridor() override;
     ParticipantePrototype* clonar() override;
+
+    // Métodos da funcionalidade DR
+    bool solicitarDireitoResposta();
 };

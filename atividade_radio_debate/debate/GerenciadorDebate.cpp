@@ -5,6 +5,7 @@
 #include "estados/EstadoReplica.hpp"
 #include "estados/EstadoTreplica.hpp"
 #include "estados/EstadoDireitoResposta.hpp"
+#include "../participantes/candidato/CandidatoConcreto.hpp"
 
 GerenciadorDebate::GerenciadorDebate()
     : inquiridor(nullptr),
@@ -182,12 +183,9 @@ void GerenciadorDebate::concederDR(Candidato* candidato) {
 }
 
 void GerenciadorDebate::simularSolicitacoesDR() {
-    std::uniform_int_distribution<int> dist(0, 1);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
     for (Candidato* c : candidatos) {
-        if (dist(gen) == 1) {
+        CandidatoConcreto* concreto = dynamic_cast<CandidatoConcreto*>(c);
+        if (concreto && concreto->solicitarDireitoResposta()) {
             registrarSolicitacaoDR(c);
             std::cout << c->getNome() << " solicitou Direito de Resposta.\n";
         }

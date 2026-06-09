@@ -1,4 +1,5 @@
 #include "CandidatoConcreto.hpp"
+#include <random>
 
 CandidatoConcreto::CandidatoConcreto(int id, const std::string& nome)
     : id(id), nome(nome), jaPerguntou(false), microfone(id) {
@@ -27,4 +28,12 @@ ParticipantePrototype* CandidatoConcreto::clonar() {
     novo->jaPerguntou = jaPerguntou;
     novo->microfone = microfone;
     return novo;
+}
+
+// Métodos da funcionalidade DR
+bool CandidatoConcreto::solicitarDireitoResposta() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 1);
+    return dist(gen) == 1;
 }
