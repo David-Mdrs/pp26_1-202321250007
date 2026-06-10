@@ -17,7 +17,7 @@ void CLI::exibirComandos() {
     if (estadoCLI == EstadoCLI::CONFIGURACAO) {
         std::cout << "CADASTRAR CANDIDATO <id>  <nome>\n";
         std::cout << "CADASTRAR ELEITOR   <id>  <nome>  <nomeCandidatoFavorito>\n";
-        std::cout << "CONFIGURAR DEBATE   <tempo1> <t2> <t3> <t4> <t5>\n";
+        std::cout << "CONFIGURAR TEMPO    <tempo1> <t2> <t3> <t4> <t5>\n";
         std::cout << "INICIAR DEBATE\n";
     }
     else if (estadoCLI == EstadoCLI::AGUARDANDO_PERGUNTA) {
@@ -84,7 +84,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         else if (args[0] == "CADASTRAR" && args.size() >= 5 && args[1] == "ELEITOR") {
             cmdCriarEleitor(args);
         }
-        else if (args[0] == "CONFIGURAR" && args.size() >= 3 && args[1] == "DEBATE") {
+        else if (args[0] == "CONFIGURAR" && args.size() >= 3 && args[1] == "TEMPO") {
             cmdConfigurarDebate(args);
         }
         else if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "DEBATE") {
@@ -241,7 +241,7 @@ void CLI::cmdConfigurarDebate(const std::vector<std::string>& args) {
     }
     fachada.configurarDebate(candidatos, tempos);
     debateConfigurado = true;
-    std::cout << "Debate configurado.\n\n";
+    std::cout << "Tempos de debate configurado.\n\n";
 }
 
 void CLI::cmdConcederDR(const std::vector<std::string>& args) {

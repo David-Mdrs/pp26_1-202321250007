@@ -2,7 +2,7 @@
 #include "../GerenciadorDebate.hpp"
 
 void EstadoDireitoResposta::processar(GerenciadorDebate& gerenciador) {
-    gerenciador.registrarAcao("Estado: Direito de Resposta");
+    gerenciador.registrarAcao("ESTADO INICIADO: Direito de Resposta");
     for (Candidato* candidato : gerenciador.getFilaDR()) {
 
         // Desliga microfone de todos antes de cada defesa

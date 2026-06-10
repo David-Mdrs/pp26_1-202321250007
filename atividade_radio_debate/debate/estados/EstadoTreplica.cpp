@@ -2,7 +2,7 @@
 #include "../GerenciadorDebate.hpp"
 
 void EstadoTreplica::processar(GerenciadorDebate& gerenciador) {
-    gerenciador.registrarAcao("Estado: Treplica");
+    gerenciador.registrarAcao("ESTADO INICIADO: Treplica");
 
     std::cout << "Inquiridor " << gerenciador.getInquiridor()->getNome() << " - ";
     gerenciador.getInquiridor()->obterMicrofone().desligar();

@@ -34,7 +34,12 @@ void GerenciadorDebate::configurarDebate(const std::vector<Candidato*>& novosCan
         tempos.resize(4, 0);
     }
 
-    logger.registrar("Debate configurado com " + std::to_string(candidatos.size()) + " candidato(s).");
+    std::string logTempos = "TEMPO CONFIGURADO: ";
+    for (int i = 0; i < (int)tempos.size(); i++) {
+        logTempos += std::to_string(tempos[i]) + "s";
+        if (i < (int)tempos.size() - 1) logTempos += ", ";
+    }
+    logger.registrar(logTempos);
 }
 
 void GerenciadorDebate::sortearInquiridor() {
@@ -47,7 +52,7 @@ void GerenciadorDebate::sortearInquiridor() {
     }
 
     if (disponiveis.empty()) {
-        logger.registrar("Todos os candidatos ja foram inquiridores.");
+        logger.registrar("TODOS OS CANDIDATOS JA FORAM INQUIRIDORES.");
         inquiridor = nullptr;
         return;
     }
@@ -59,14 +64,14 @@ void GerenciadorDebate::sortearInquiridor() {
     inquiridor = disponiveis[dist(gen)];
     inquiridor->marcarComoInquiridor();
 
-    logger.registrar("Inquiridor sorteado: " + inquiridor->getNome());
+    logger.registrar("INQUIRIDOR: " + inquiridor->getNome());
 
     // Redefinir inquirido automaticamente
     inquirido = nullptr;
     for (auto* c : candidatos) {
         if (c && c != inquiridor) {
             inquirido = c;
-            logger.registrar("Inquirido definido: " + c->getNome());
+            logger.registrar("INQUIRIDO: " + c->getNome());
             break;
         }
     }
@@ -76,7 +81,7 @@ void GerenciadorDebate::definirInquirido(int id) {
     for (auto* c : candidatos) {
         if (c && c->getId() == id && c != inquiridor) {
             inquirido = c;
-            logger.registrar("Inquirido definido: " + c->getNome());
+            logger.registrar("INQUIRIDO: " + c->getNome());
             return;
         }
     }
@@ -88,6 +93,7 @@ void GerenciadorDebate::registrarAcao(const std::string& acao) {
 }
 
 void GerenciadorDebate::iniciarDebate() {
+    logger.registrar("DEBATE INICIADO");
     sortearInquiridor();
 
     if (!inquiridor) {
@@ -114,7 +120,7 @@ void GerenciadorDebate::proximaAcao() {
         cronometro.iniciar(tempos[3]);
     }
     else if (dynamic_cast<EstadoTreplica*>(estadoAtual)) {
-        registrarAcao("Rodada finalizada");
+        registrarAcao("RODADA FINALIZADA");
     }
 }
 
@@ -127,7 +133,7 @@ void GerenciadorDebate::finalizarDebate() {
     }
 
     if (!encerrado) {
-        logger.registrar("Debate finalizado.");
+        logger.registrar("DEBATE FINALIZADO.");
     }
 
     encerrado = true;
@@ -161,20 +167,23 @@ void GerenciadorDebate::registrarSolicitacaoDR(Candidato* candidato) {
         }
     }
     filaDR.push_back(candidato);
-    registrarAcao("DR solicitado por: " + candidato->getNome());
+    registrarAcao("DR SOLICITADA: " + candidato->getNome());
 }
 
 void GerenciadorDebate::analisarSolicitacoesDR() {
     if (filaDR.empty()) {
+        registrarAcao("DRs ANALISADAS: Sem DRs");
         std::cout << "Nenhuma solicitacao de DR.\n";
         return;
     }
     for (Candidato* c : filaDR) {
-        std::cout << "[" << c->getId() << "] " << c->getNome() << " solicitou DR\n";
+        std::cout << "[" << c->getId() << "] " << c->getNome() << "\n";
     }
+    registrarAcao("DRs ANALISADAS: " + std::to_string(filaDR.size()) + " DRs");
 }
 
 void GerenciadorDebate::concederDR(Candidato* candidato) {
+    registrarAcao("DR CONCEDIDA: [" + std::to_string(candidato->getId()) + "] " + candidato->getNome());
     for (auto it = filaDR.begin(); it != filaDR.end(); ++it) {
         if ((*it)->getId() == candidato->getId()) {
             setEstado(new EstadoDireitoResposta());
@@ -197,7 +206,7 @@ void GerenciadorDebate::simularSolicitacoesDR() {
         CandidatoConcreto* concreto = dynamic_cast<CandidatoConcreto*>(c);
         if (concreto && concreto->solicitarDireitoResposta()) {
             registrarSolicitacaoDR(c);
-            std::cout << c->getNome() << " solicitou Direito de Resposta.\n";
+            std::cout << c->getNome() << " solicitou Direito de Resposta.\n\n";
         }
     }
 }

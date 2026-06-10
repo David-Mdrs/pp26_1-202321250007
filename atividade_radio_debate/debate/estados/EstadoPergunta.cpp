@@ -2,7 +2,7 @@
 #include "../GerenciadorDebate.hpp"
 
 void EstadoPergunta::processar(GerenciadorDebate& gerenciador) {
-    gerenciador.registrarAcao("Estado: Pergunta");
+    gerenciador.registrarAcao("ESTADO INICIADO: Pergunta");
 
     std::cout << "Inquiridor " << gerenciador.getInquiridor()->getNome() << " - ";
     gerenciador.getInquiridor()->obterMicrofone().ligar();

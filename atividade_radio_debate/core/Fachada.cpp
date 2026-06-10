@@ -85,7 +85,9 @@ Candidato* Fachada::criarCandidato(int id, const std::string& nome) {
     CandidatoBuilder builder;
     builder.construirId(id);
     builder.construirNome(nome);
-    return builder.getResultados();
+    Candidato* candidato = builder.getResultados();
+    gerenciador.registrarAcao("CANDIDATO CRIADO: [" + std::to_string(id) + "] " + nome);
+    return candidato;
 }
 
 Eleitor* Fachada::criarEleitor(int id, const std::string& nome, Candidato* candidatoFavorito) {
@@ -95,7 +97,9 @@ Eleitor* Fachada::criarEleitor(int id, const std::string& nome, Candidato* candi
     if (candidatoFavorito != nullptr) {
         builder.construirCandidatoFavorito(dynamic_cast<CandidatoConcreto*>(candidatoFavorito));
     }
-    return builder.getResultados();
+    Eleitor* eleitor = builder.getResultados();
+    gerenciador.registrarAcao("ELEITOR CRIADO: [" + std::to_string(id) + "] " + nome);
+    return eleitor;
 }
 
 // Prototype
