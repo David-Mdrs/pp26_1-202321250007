@@ -110,7 +110,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "PERGUNTA") {
             fachada.iniciarPergunta();
             estadoCLI = EstadoCLI::AGUARDANDO_RESPOSTA;
-            std::cout << "Fase de pergunta iniciada.\n\n";
+            std::cout << "Fase de pergunta finalizada.\n\n";
         }
         else if (args[0] == "FINALIZAR") {
             fachada.finalizarDebate();
@@ -131,7 +131,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "RESPOSTA") {
             fachada.iniciarResposta();
             estadoCLI = EstadoCLI::AGUARDANDO_REPLICA;
-            std::cout << "Fase de resposta iniciada.\n\n";
+            std::cout << "Fase de resposta finalizada.\n\n";
         }
         else {
             std::cout << "Comando invalido nesta fase.\n\n";
@@ -143,7 +143,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "REPLICA") {
             fachada.iniciarReplica();
             estadoCLI = EstadoCLI::AGUARDANDO_TREPLICA;
-            std::cout << "Fase de replica iniciada.\n\n";
+            std::cout << "Fase de replica finalizada.\n\n";
         }
         else {
             std::cout << "Comando invalido nesta fase.\n\n";
@@ -155,7 +155,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         if (args[0] == "INICIAR" && args.size() >= 2 && args[1] == "TREPLICA") {
             fachada.iniciarTreplica();
             estadoCLI = EstadoCLI::AGUARDANDO_DR;
-            std::cout << "Fase de treplica iniciada.\n\n";
+            std::cout << "Fase de treplica finalizada.\n\n";
         }
         else {
             std::cout << "Comando invalido nesta fase.\n\n";

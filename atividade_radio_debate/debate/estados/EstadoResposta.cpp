@@ -2,12 +2,14 @@
 #include "../GerenciadorDebate.hpp"
 
 void EstadoResposta::processar(GerenciadorDebate& gerenciador) {
+    gerenciador.registrarAcao("Estado: Resposta");
+
     std::cout << "Inquiridor " << gerenciador.getInquiridor()->getNome() << " - ";
     gerenciador.getInquiridor()->obterMicrofone().desligar();
     std::cout << "Inquirido " << gerenciador.getInquirido()->getNome() << " - ";
     gerenciador.getInquirido()->obterMicrofone().ligar();
     std::cout << std::endl;
-    gerenciador.registrarAcao("Estado: Resposta");
+    gerenciador.getCronometro().iniciar(gerenciador.getTempos()[1]);
 
     // Simulando candidato que pressiona o botão DR
     gerenciador.simularSolicitacoesDR();

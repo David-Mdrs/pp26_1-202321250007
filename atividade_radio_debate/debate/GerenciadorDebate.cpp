@@ -217,6 +217,14 @@ std::vector<Candidato*>& GerenciadorDebate::getFilaDR() {
     return filaDR;
 }
 
+const std::vector<int>& GerenciadorDebate::getTempos() const {
+    return tempos;
+}
+
+Cronometro& GerenciadorDebate::getCronometro() {
+    return cronometro;
+}
+
 void GerenciadorDebate::limparFilaDR() {
     filaDR.clear();
 }

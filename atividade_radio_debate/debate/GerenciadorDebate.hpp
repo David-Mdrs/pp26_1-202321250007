@@ -58,4 +58,6 @@ public:
     const std::vector<Candidato*>& getCandidatos() const;
     std::vector<Candidato*>& getFilaDR();
     void limparFilaDR();
+    const std::vector<int>& getTempos() const;
+    Cronometro& getCronometro();
 };
