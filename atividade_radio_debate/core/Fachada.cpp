@@ -107,3 +107,8 @@ Candidato* Fachada::clonarCandidato(Candidato* candidato) {
 Eleitor* Fachada::clonarEleitor(Eleitor* eleitor) {
     return dynamic_cast<Eleitor*>(eleitor->clonar());
 }
+
+// DR
+void Fachada::limparFilaDR() {
+    gerenciador.limparFilaDR();
+}

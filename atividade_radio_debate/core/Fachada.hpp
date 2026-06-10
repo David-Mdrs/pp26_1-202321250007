@@ -44,4 +44,7 @@ public:
     // Prototype
     Candidato* clonarCandidato(Candidato* candidato);
     Eleitor* clonarEleitor(Eleitor* eleitor);
+
+    // DR
+    void limparFilaDR();
 };

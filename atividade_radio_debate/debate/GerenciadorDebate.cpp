@@ -175,10 +175,11 @@ void GerenciadorDebate::analisarSolicitacoesDR() {
 }
 
 void GerenciadorDebate::concederDR(Candidato* candidato) {
-    for (Candidato* c : filaDR) {
-        if (c->getId() == candidato->getId()) {
+    for (auto it = filaDR.begin(); it != filaDR.end(); ++it) {
+        if ((*it)->getId() == candidato->getId()) {
             setEstado(new EstadoDireitoResposta());
             processarEstado();
+            filaDR.erase(it);
             return;
         }
     }

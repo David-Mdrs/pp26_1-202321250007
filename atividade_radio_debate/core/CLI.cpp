@@ -12,12 +12,12 @@ CLI::CLI(Fachada& fachada)
 }
 
 void CLI::exibirComandos() {
-    std::cout << "\n=========================================================\n";
+    std::cout << "=========================================================\n";
 
     if (estadoCLI == EstadoCLI::CONFIGURACAO) {
-        std::cout << "CADASTRAR CANDIDATO  <id>  <nome>\n";
-        std::cout << "CADASTRAR ELEITOR    <id>  <nome>  <nomeCandidatoFavorito>\n";
-        std::cout << "CONFIGURAR DEBATE    <tempo1> <t2> <t3> <t4>\n";
+        std::cout << "CADASTRAR CANDIDATO <id>  <nome>\n";
+        std::cout << "CADASTRAR ELEITOR   <id>  <nome>  <nomeCandidatoFavorito>\n";
+        std::cout << "CONFIGURAR DEBATE   <tempo1> <t2> <t3> <t4> <t5>\n";
         std::cout << "INICIAR DEBATE\n";
     }
     else if (estadoCLI == EstadoCLI::AGUARDANDO_PERGUNTA) {
@@ -172,6 +172,7 @@ void CLI::executarComando(const std::vector<std::string>& args) {
             cmdConcederDR(args);
         }
         else if (args[0] == "NOVA" && args.size() >= 2 && args[1] == "RODADA") {
+            fachada.limparFilaDR();
             fachada.sortearInquiridor();
             estadoCLI = EstadoCLI::AGUARDANDO_PERGUNTA;
             std::cout << "Nova rodada iniciada.\n\n";

@@ -16,10 +16,8 @@ void EstadoDireitoResposta::processar(GerenciadorDebate& gerenciador) {
         std::cout << candidato->getNome() << " - ";
         candidato->obterMicrofone().ligar();
         candidato->notificar("Candidato " + candidato->getNome() + " em Direito de Resposta\n");
-        gerenciador.getCronometro().iniciar(gerenciador.getTempos()[0]);
+        gerenciador.getCronometro().iniciar(gerenciador.getTempos()[4]);
         std::cout << candidato->getNome() << " - ";
         candidato->obterMicrofone().desligar();
     }
-    gerenciador.limparFilaDR();
-    gerenciador.getCronometro().iniciar(gerenciador.getTempos()[1]);
 }
