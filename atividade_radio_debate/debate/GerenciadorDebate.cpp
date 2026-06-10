@@ -60,6 +60,16 @@ void GerenciadorDebate::sortearInquiridor() {
     inquiridor->marcarComoInquiridor();
 
     logger.registrar("Inquiridor sorteado: " + inquiridor->getNome());
+
+    // Redefinir inquirido automaticamente
+    inquirido = nullptr;
+    for (auto* c : candidatos) {
+        if (c && c != inquiridor) {
+            inquirido = c;
+            logger.registrar("Inquirido definido: " + c->getNome());
+            break;
+        }
+    }
 }
 
 void GerenciadorDebate::definirInquirido(int id) {
@@ -82,15 +92,6 @@ void GerenciadorDebate::iniciarDebate() {
 
     if (!inquiridor) {
         finalizarDebate();
-        return;
-    }
-
-    for (auto* c : candidatos) {
-        if (c && c != inquiridor) {
-            inquirido = c;
-            logger.registrar("Inquirido definido: " + c->getNome());
-            break;
-        }
     }
 }
 
