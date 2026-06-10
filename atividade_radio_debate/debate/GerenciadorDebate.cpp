@@ -157,6 +157,11 @@ void GerenciadorDebate::processarEstado() {
 
 // Métodos para implementação da DR
 void GerenciadorDebate::registrarSolicitacaoDR(Candidato* candidato) {
+    for (Candidato* c : filaDR) {
+        if (c->getId() == candidato->getId()) {
+            return;
+        }
+    }
     filaDR.push_back(candidato);
     registrarAcao("DR solicitado por: " + candidato->getNome());
 }
@@ -183,7 +188,13 @@ void GerenciadorDebate::concederDR(Candidato* candidato) {
 }
 
 void GerenciadorDebate::simularSolicitacoesDR() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 1);
+
     for (Candidato* c : candidatos) {
+        if (c == inquiridor || c == inquirido) continue;
+
         CandidatoConcreto* concreto = dynamic_cast<CandidatoConcreto*>(c);
         if (concreto && concreto->solicitarDireitoResposta()) {
             registrarSolicitacaoDR(c);
