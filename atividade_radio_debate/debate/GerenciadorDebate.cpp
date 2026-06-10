@@ -6,6 +6,7 @@
 #include "estados/EstadoTreplica.hpp"
 #include "estados/EstadoDireitoResposta.hpp"
 #include "../participantes/candidato/CandidatoConcreto.hpp"
+#include <chrono>
 
 GerenciadorDebate::GerenciadorDebate()
     : inquiridor(nullptr),
@@ -87,14 +88,10 @@ void GerenciadorDebate::iniciarDebate() {
     for (auto* c : candidatos) {
         if (c && c != inquiridor) {
             inquirido = c;
-            logger.registrar("Inquirido definido automaticamente: " + c->getNome());
+            logger.registrar("Inquirido definido: " + c->getNome());
             break;
         }
     }
-
-    setEstado(new EstadoPergunta());
-    processarEstado();
-    cronometro.iniciar(tempos[0]);
 }
 
 void GerenciadorDebate::proximaAcao() {
@@ -172,7 +169,7 @@ void GerenciadorDebate::analisarSolicitacoesDR() {
         return;
     }
     for (Candidato* c : filaDR) {
-        std::cout << c->getNome() << " solicitou DR\n";
+        std::cout << "[" << c->getId() << "] " << c->getNome() << " solicitou DR\n";
     }
 }
 

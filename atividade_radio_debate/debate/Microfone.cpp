@@ -8,12 +8,12 @@ Microfone::Microfone(int id) {
 
 void Microfone::ligar() {
     ligado = true;
-    std::cout << "Ligado.\n";
+    std::cout << "Microfone Ligado.\n";
 }
 
 void Microfone::desligar() {
     ligado = false;
-    std::cout << "Desligado.\n";
+    std::cout << "Microfone Desligado.\n";
 }
 
 bool Microfone::estaLigado() const {

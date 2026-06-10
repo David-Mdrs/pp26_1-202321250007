@@ -7,7 +7,7 @@ Cronometro::Cronometro() {
 
 void Cronometro::iniciar(int tempo) {
     tempoAtual = tempo;
-    std::cout << "Cronometro iniciado com " << tempoAtual << " segundo(s).\n\n";
+    std::cout << "Duracao: " << tempoAtual << " segundo(s).\n\n";
 }
 
 void Cronometro::finalizarTempo() {

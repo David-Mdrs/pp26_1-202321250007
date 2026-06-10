@@ -37,7 +37,7 @@ void CLI::exibirComandos() {
     else if (estadoCLI == EstadoCLI::AGUARDANDO_DR) {
         std::cout << "ANALISAR DR\n";
         std::cout << "CONCEDER DR          <idCandidato>\n";
-        std::cout << "PROXIMO ROUND\n";
+        std::cout << "NOVA RODADA\n";
         std::cout << "FINALIZAR\n";
         std::cout << "RELATORIO\n";
     }
@@ -171,10 +171,10 @@ void CLI::executarComando(const std::vector<std::string>& args) {
         else if (args[0] == "CONCEDER" && args.size() >= 3 && args[1] == "DR") {
             cmdConcederDR(args);
         }
-        else if (args[0] == "PROXIMO" && args.size() >= 2 && args[1] == "ROUND") {
+        else if (args[0] == "NOVA" && args.size() >= 2 && args[1] == "RODADA") {
             fachada.sortearInquiridor();
             estadoCLI = EstadoCLI::AGUARDANDO_PERGUNTA;
-            std::cout << "Proximo round iniciado.\n\n";
+            std::cout << "Nova rodada iniciada.\n\n";
         }
         else if (args[0] == "FINALIZAR") {
             fachada.finalizarDebate();
